@@ -24,7 +24,7 @@ jobs:
 
       - name: Retrieve Secrets
         id: secrets
-        uses: t-botz/aws-secrets-manager-read-action@v1
+        uses: t-botz/aws-secrets-manager-read-action@v2.0.0
         with:
           secret-id: dev/mam
           keys-as-env-vars: true
