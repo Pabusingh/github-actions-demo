@@ -32,4 +32,5 @@ jobs:
       - name: Use Secret
         run: |
           echo "$REACT_APP_SERVER_URL_PARAM"
+          sed -i "s#%REACT_APP_SERVER_URL_PARAM%#$REACT_APP_SERVER_URL_PARAM#g" apprunner.yml
 
