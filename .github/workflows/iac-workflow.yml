@@ -59,10 +59,5 @@ jobs:
           capabilities: CAPABILITY_NAMED_IAM
           parameter-overrides: >-
             Environment=${{ env.ENVIRONMENT }}
-          tags: >
-          [
-            { "Key": "Name", "Value": "mam-front-end-${{ env.ENVIRONMENT }}" },
-            { "Key": "ProductID", "Value": "MAM" },            
-            { "Key": "Business / Service Owner", "Value": "Digital-BET-team@aljazeera.net" },
-            { "Key": "Purpose", "Value": "FrontEnd" }
-          ]
+          tags: > [{ "Key": "Name", "Value": "mam-front-end"}]
+            
