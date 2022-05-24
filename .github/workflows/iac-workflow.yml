@@ -1,0 +1,69 @@
+name: AppRunner Infra Deployment
+
+on:
+  # push:
+  #   branches:
+  #     - main
+
+  workflow_dispatch:
+    inputs:
+      Environment:
+        type: choice
+        description: Select Environment for deploying Infrastructure
+        required: true
+        default: dev
+        options:
+          - dev
+          - qa
+          - staging
+          - prod
+env:
+  AWS_DEFAULT_REGION: "eu-west-1"
+  ENVIRONMENT: "dev"
+jobs:
+  InfraDeploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+
+      # - name: Retrieve Secrets
+      #   id: secrets
+      #   uses: t-botz/aws-secrets-manager-read-action@v2.0.0
+      #   with:
+      #     secret-id: dev/mam/frontend
+      #     keys-as-env-vars: true
+      #     mask-json-values: true
+      #     keys-as-outputs: true
+
+      # - name: Use Secret
+      #   run: |
+      #     sed -i "s#%REACT_APP_SERVER_URL_PARAM%#$REACT_APP_SERVER_URL_PARAM#g" ./iac/mam-infra.yml
+      #     sed -i "s#%NEW_RELIC_LICENSE_KEY%#$NEW_RELIC_LICENSE_KEY#g" ./iac/mam-infra.yml
+
+      - name: AWS CloudFormation "Deploy CloudFormation Stack" Action for App Runner
+        id: app-runner
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
+        with:
+          name: mam-front-end-${{ env.ENVIRONMENT }}
+          template: ./iac/mam-infra.yml
+          no-fail-on-empty-changeset: 1
+          capabilities: CAPABILITY_NAMED_IAM
+          parameter-overrides: >-
+            Environment=${{ env.ENVIRONMENT }}
+          tags: '[
+            { "Key": "Name", "Value": "mam-front-end-${{ env.ENVIRONMENT }}" },
+            { "Key": "ProductID", "Value": "MAM" },
+            { "Key": "Environment", "Value": "${{ env.ENVIRONMENT }}"" },
+            { "Key": "CreatedBy", "Value": "rathorep@aljazeera.net" },
+            { "Key": "Business / Service Owner", "Value": "Digital-BET-team@aljazeera.net" },
+            { "Key": "Purpose", "Value": "FrontEnd" }
+            ]'

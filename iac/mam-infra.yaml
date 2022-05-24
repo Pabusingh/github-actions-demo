@@ -1,0 +1,134 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Cloudformation-template for lauching apprunner and its resources
+
+Parameters: 
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - qa
+      - staging
+      - prod
+
+Resources: 
+  # AppRunnerService:
+  #   Type: AWS::AppRunner::Service
+  #   Properties:
+  #     ServiceName: !Sub mam-front-end-${Environment}      
+  #     # NetworkConfiguration:
+  #     #   EgressConfiguration:
+  #     #     EgressType: VPC
+  #     #     VpcConnectorArn: !GetAtt VPCConnector.VpcConnectorArn
+  #     SourceConfiguration:
+  #       AuthenticationConfiguration:
+  #         AccessRoleArn: !GetAtt MAMRole.Arn
+  #       AutoDeploymentsEnabled: true
+  #       ImageRepository:
+  #         ImageIdentifier: 250144837585.dkr.ecr.eu-west-1.amazonaws.com/poc-node16:dev
+  #         ImageRepositoryType: ECR
+  #         ImageConfiguration:
+  #           Port: 3000
+  #           RuntimeEnvironmentVariables:
+  #             - Name: REACT_APP_SERVER_URL_PARAM
+  #               Value: %REACT_APP_SERVER_URL_PARAM%
+  #             - Name: NEW_RELIC_LICENSE_KEY
+  #               Value: %NEW_RELIC_LICENSE_KEY%
+  #             - Name: NEW_RELIC_APP_NAME
+  #               Value: !Sub mam-front-end-${Environment}                    
+  #     Tags:
+  #       - Key: Name
+  #         Value: !Sub mam-front-end-${Environment}
+  #       - Key: ProductID
+  #         Value: MAM
+  #       - Key: Environment
+  #         Value: !Ref Environment
+  #       - Key: CreatedBy
+  #         Value: rathorep@aljazeera.net
+  #       - Key: Business / Service Owner
+  #         Value: Digital-BET-team@aljazeera.net
+  #       - Key: Purpose
+  #         Value: FrontEnd  
+
+  MAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub mam-${Environment}-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - build.apprunner.amazonaws.com
+            Action:
+              - 'sts:AssumeRole' 
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess
+      Tags:
+        - Key: Name
+          Value: !Sub mam-front-end-${Environment}
+        - Key: ProductID
+          Value: MAM
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: CreatedBy
+          Value: rathorep@aljazeera.net
+        - Key: Business / Service Owner
+          Value: Digital-BET-team@aljazeera.net
+        - Key: Purpose
+          Value: FrontEnd
+
+  # ApprunnerSG:
+  #   Type: AWS::EC2::SecurityGroup
+  #   Properties: 
+  #     GroupDescription: MAM AppRunner Service Security Group
+  #     GroupName: !Sub MAMAppRunnerSg-${Environment}      
+  #     SecurityGroupIngress: 
+  #       - IpProtocol: tcp
+  #         FromPort: 80
+  #         ToPort: 80
+  #         CidrIp: 172.19.0.0/16
+  #         Description: Open VPN VPC
+  #       - IpProtocol: tcp
+  #         FromPort: 443
+  #         ToPort: 443
+  #         CidrIp: 172.19.0.0/16
+  #         Description: Open VPN VPC
+  #     Tags: 
+  #       - Key: Name
+  #         Value: !Sub mam-front-end-${Environment}
+  #       - Key: ProductID
+  #         Value: MAM
+  #       - Key: Environment
+  #         Value: !Ref Environment
+  #       - Key: CreatedBy
+  #         Value: rathorep@aljazeera.net
+  #       - Key: Business / Service Owner
+  #         Value: Digital-BET-team@aljazeera.net
+  #       - Key: Purpose
+  #         Value: FrontEnd
+  #     VpcId: vpc-0f6d2f492e90e88eb
+
+  # VPCConnector:
+  #   Type: AWS::AppRunner::VpcConnector
+  #   Properties:
+  #     VpcConnectorName: !Sub MAM-VPC-Connector-${Environment}
+  #     Subnets:
+  #       - subnet-01be797a1d81554fd
+  #       - subnet-02332472dd499642c
+  #     SecurityGroups:
+  #       - !GetAtt ApprunnerSG.GroupId
+  #     Tags:
+  #       - Key: Name
+  #         Value: !Sub mam-front-end-${Environment}
+  #       - Key: ProductID
+  #         Value: MAM
+  #       - Key: Environment
+  #         Value: !Ref Environment
+  #       - Key: CreatedBy
+  #         Value: rathorep@aljazeera.net
+  #       - Key: Business / Service Owner
+  #         Value: Digital-BET-team@aljazeera.net
+  #       - Key: Purpose
+  #         Value: FrontEnd           
