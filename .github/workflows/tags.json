@@ -1,0 +1,26 @@
+[
+    {
+        "Key": "Name",
+        "Value": "mam-front-end-${{ env.ENVIRONMENT }}"
+    },
+    {
+        "Key": "ProductID",
+        "Value": "MAM"
+    },
+    {
+        "Key": "Environment",
+        "Value": "${{ env.ENVIRONMENT }}"
+    },
+    {
+        "Key": "CreatedBy",
+        "Value": "rathorep@aljazeera.net"
+    },
+    {
+        "Key": "Business / Service Owner",
+        "Value": "Digital-BET-team@aljazeera.net"
+    },
+    {
+        "Key": "Purpose",
+        "Value": "FrontEnd"
+    }
+]

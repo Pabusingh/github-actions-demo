@@ -49,6 +49,14 @@ jobs:
       #     sed -i "s#%REACT_APP_SERVER_URL_PARAM%#$REACT_APP_SERVER_URL_PARAM#g" ./iac/mam-infra.yml
       #     sed -i "s#%NEW_RELIC_LICENSE_KEY%#$NEW_RELIC_LICENSE_KEY#g" ./iac/mam-infra.yml
 
+      - name: fetch json value
+        id: set_var
+        run: |
+          content=$(cat ./tags.json)
+          echo "::set-output name=packageJson::$content"
+      - run: |
+          echo "${{fromJson(steps.set_var.outputs.packageJson)}}" 
+             
       - name: AWS CloudFormation "Deploy CloudFormation Stack" Action for App Runner
         id: app-runner
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
@@ -59,7 +67,4 @@ jobs:
           capabilities: CAPABILITY_NAMED_IAM
           parameter-overrides: >-
             Environment=${{ env.ENVIRONMENT }}
-          tags:
-            - Key: Name
-              Value: Test
-            
+          tags: '[ { "Key": "string", "Value": "string" } ]'
