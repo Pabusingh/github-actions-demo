@@ -64,16 +64,16 @@ jobs:
         id: app-runner
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
-          name: mam-front-end-${{ github.event.inputs.message }}
+          name: mam-front-end-${{ github.event.inputs.Environment }}
           template: ./iac/mam-infra.yml
           no-fail-on-empty-changeset: 1
           capabilities: CAPABILITY_NAMED_IAM
           parameter-overrides: >-
-            Environment=${{ github.event.inputs.message }}
+            Environment=${{ github.event.inputs.Environment }}
           tags: '[
-            { "Key": "Name", "Value": "mam-front-end-${{ github.event.inputs.message }}" },
+            { "Key": "Name", "Value": "mam-front-end-${{ github.event.inputs.Environment }}" },
             { "Key": "ProductID", "Value": "MAM" },
-            { "Key": "Environment", "Value": "${{ github.event.inputs.message }}" },
+            { "Key": "Environment", "Value": "${{ github.event.inputs.Environment }}" },
             { "Key": "CreatedBy", "Value": "rathorep@aljazeera.net" },
             { "Key": "Business / Service Owner", "Value": "Digital-BET-team@aljazeera.net" },
             { "Key": "Purpose", "Value": "FrontEnd" }
