@@ -52,11 +52,11 @@ jobs:
       - name: fetch json value
         id: set_var
         run: |
-          content=$(cat ./tags.json)
+          content=$(cat ./iac/tags.json)
           echo "::set-output name=packageJson::$content"
       - run: |
           echo "${{fromJson(steps.set_var.outputs.packageJson)}}" 
-             
+
       - name: AWS CloudFormation "Deploy CloudFormation Stack" Action for App Runner
         id: app-runner
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
