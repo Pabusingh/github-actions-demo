@@ -70,4 +70,4 @@ jobs:
           capabilities: CAPABILITY_NAMED_IAM
           parameter-overrides: >-
             Environment=${{ env.ENVIRONMENT }}
-          tags: '[ { "Key": "string", "Value": "string" } ]'
+          tags: '[ { "Key": "Name", "Value": "mam-front-end-${{ env.ENVIRONMENT }}" } ]'
