@@ -59,5 +59,7 @@ jobs:
           capabilities: CAPABILITY_NAMED_IAM
           parameter-overrides: >-
             Environment=${{ env.ENVIRONMENT }}
-          tags: > [{ "Key": "Name", "Value": "mam-front-end"}]
+          tags:
+            - Key: Name
+              Value: Test
             
