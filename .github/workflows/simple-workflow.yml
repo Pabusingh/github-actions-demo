@@ -17,7 +17,7 @@ on:
 env:  
   Environment: ${{ (github.event_name == 'pull_request' && 'dev') || (contains(github.ref, 'develop') && 'qa') || (contains(github.ref, 'release') && 'staging') || (contains(github.ref, 'main') && 'prod') }}  
   PROJECT_NUMBER: ${{ (github.event_name == 'pull_request' && '797167706015') || (contains(github.ref, 'develop') && '797167706015') || (contains(github.ref, 'release') && '1084311286936') || (contains(github.ref, 'main') && '1081338543599') }}
-  PROJECT_ID: ${{ (github.event_name == 'pull_request' && 'ajgc-dig-pdi-dev-mam-0.iam.gserviceaccount.com') || (contains(github.ref, 'develop') && 'ajgc-dig-pdi-dev-mam-0.iam.gserviceaccount.com') || (contains(github.ref, 'release') && 'ajgc-dig-pdi-vidicore-exp-0') || (contains(github.ref, 'main') && 'ajgc-dig-pdi-prd-mam-0') }} ,,
+  PROJECT_ID: ${{ (github.event_name == 'pull_request' && 'ajgc-dig-pdi-dev-mam-0.iam.gserviceaccount.com') || (contains(github.ref, 'develop') && 'ajgc-dig-pdi-dev-mam-0.iam.gserviceaccount.com') || (contains(github.ref, 'release') && 'ajgc-dig-pdi-vidicore-exp-0') || (contains(github.ref, 'main') && 'ajgc-dig-pdi-prd-mam-0') }}
 jobs:
   # This workflow contains a single job called "build"
   build:
