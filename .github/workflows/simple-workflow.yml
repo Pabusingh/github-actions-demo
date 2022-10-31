@@ -17,7 +17,7 @@ on:
 env:
   SERVICE_ACCOUNT: ${{ (contains(github.ref, 'main') && 'mainservice') || 'otherservice' }}
   Environment: ${{ (contains(github.ref, 'main') && 'prod') }}
-  WhichEnvironment: ${{ env.SERVICE_ACCOUNT }}-Environment
+  WhichEnvironment: $SERVICE_ACCOUNT-Environment
 jobs:
   # This workflow contains a single job called "build"
   build:
